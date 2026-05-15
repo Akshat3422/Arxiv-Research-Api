@@ -1,0 +1,14 @@
+langgraph
+langchain
+langchain-community
+fastapi
+uvicorn
+# langchain-openai
+langchain-groq
+arxiv
+reportlab
+python-docx
+python-dotenv
+reportlab
+pydantic
+aiohttp
