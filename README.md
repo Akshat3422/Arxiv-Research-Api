@@ -90,11 +90,5 @@ GET /files/{file_path}
 
 Only `.md` and `.pdf` report files are served.
 
-## Deploy to Vercel
-
-1. Push this repository to GitHub.
-2. Import the repository in Vercel.
-3. Add `GROQ_API_KEY` in Vercel environment variables.
-4. Deploy.
-
-Vercel uses `api/index.py` through `vercel.json`, so no `uvicorn` startup command is needed in production.
+## Deployed to Vercel
+https://arxiv-research-api.vercel.app/
