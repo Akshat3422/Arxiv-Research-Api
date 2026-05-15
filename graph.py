@@ -50,7 +50,7 @@ async def optimize_query_node(state: ResearchState):
 async def retrieve_papers_node(state: ResearchState):
     optimized_query = state["optimized_query"]
     print(f"--- Fetching papers for: {optimized_query} ---")
-    papers = await fetch_arxiv_papers(optimized_query, max_results=8)
+    papers = await fetch_arxiv_papers(optimized_query, max_results=5)
     print(f"--- Found {len(papers)} papers ---")
     return {"papers": papers}
 
@@ -104,8 +104,13 @@ async def generate_document_node(state: ResearchState):
 
     # Create filename from query
     safe_query = "".join([c if c.isalnum() else "_" for c in query])
-    file_path = f"research_report_{safe_query[:50]}.md"
-    pdf_path = f"research_report_{safe_query[:50]}.pdf"
+    output_dir = os.getenv("REPORT_OUTPUT_DIR", "/tmp" if os.getenv("VERCEL") else ".")
+    os.makedirs(output_dir, exist_ok=True)
+
+    report_filename = f"research_report_{safe_query[:50]}.md"
+    pdf_filename = f"research_report_{safe_query[:50]}.pdf"
+    file_path = os.path.join(output_dir, report_filename)
+    pdf_path = os.path.join(output_dir, pdf_filename)
 
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(report_md)
@@ -114,7 +119,7 @@ async def generate_document_node(state: ResearchState):
     export_to_pdf(query, analysis, papers, pdf_path)
 
     print(f"--- Reports generated: {file_path}, {pdf_path} ---")
-    return {"report_path": file_path, "pdf_path": pdf_path}
+    return {"report_path": report_filename, "pdf_path": pdf_filename}
 
 
 # Build the LangGraph workflow
