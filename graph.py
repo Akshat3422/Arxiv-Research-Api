@@ -24,7 +24,7 @@ async def optimize_query_node(state: ResearchState):
     query = state["query"]
     # Default to Groq if available, fallback to OpenAI or error out if neither
     if os.getenv("GROQ_API_KEY"):
-        llm = ChatGroq(model="llama-3.3-70b-versatile")
+        llm = ChatGroq(model="openai/gpt-oss-120b")
     else:
         raise ValueError("Missing API key for GROQ or OPENAI")
 
@@ -64,7 +64,7 @@ async def process_papers_node(state: ResearchState):
         return {"analysis": "No relevant papers were found on ArXiv for this query."}
 
     if os.getenv("GROQ_API_KEY"):
-        llm = ChatGroq(model="llama-3.3-70b-versatile")
+        llm = ChatGroq(model="openai/gpt-oss-120b")
     else:
         raise ValueError("Missing API key for GROQ")
     context = ""
